@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" role="img" aria-label="Adaptive Systems mark">
+  <rect x="0" y="0" width="36" height="36" fill="#0a2540"></rect>
+  <path d="M6 28 L18 6 L30 28 Z" fill="none" stroke="#b08d3e" stroke-width="1.6" stroke-linejoin="miter"></path>
+  <path d="M11 22 L25 22" stroke="#ffffff" stroke-width="1.6"></path>
+  <circle cx="18" cy="14" r="1.6" fill="#b08d3e"></circle>
+</svg>

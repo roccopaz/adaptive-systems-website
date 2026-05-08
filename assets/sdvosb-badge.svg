@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="SDVOSB pending placeholder">
+  <rect width="80" height="80" fill="#f7f8fa" stroke="#d8dde5"></rect>
+  <text x="40" y="36" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#0a2540" font-weight="700">SDVOSB</text>
+  <text x="40" y="52" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9" fill="#b08d3e">PENDING</text>
+  <text x="40" y="66" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="7" fill="#6b7a8e">REPLACE.SVG</text>
+</svg>

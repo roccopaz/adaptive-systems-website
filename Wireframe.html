@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Adaptive Systems — Wireframe</title>
+<meta name="viewport" content="width=1280" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@300;400;700&family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#1a1a1a;
+    --ink-soft:#3a3a3a;
+    --line:#1a1a1a;
+    --paper:#f7f4ec;
+    --paper-2:#efeadb;
+    --grid:#e3ddc9;
+    --accent:#1f4f9a;       /* navy-ish wireframe accent */
+    --accent-soft:#dbe6f5;
+    --warn:#b85c1c;
+    --muted:#8a857a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      repeating-linear-gradient(0deg, transparent 0 31px, rgba(36,55,95,.07) 31px 32px),
+      var(--paper);
+    color:var(--ink);
+    font-family:"Kalam","Architects Daughter",sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- frame ---------- */
+  .page{
+    max-width:1240px;
+    margin:32px auto 80px;
+    padding:0 28px;
+  }
+  .doc-head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:24px; padding:8px 6px 18px;
+    border-bottom:1.5px dashed var(--ink);
+    margin-bottom:22px;
+  }
+  .doc-head h1{
+    font-family:"Caveat",cursive;
+    font-weight:700;
+    font-size:42px;
+    margin:0;
+    letter-spacing:.5px;
+  }
+  .doc-head .meta{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    text-align:right;
+    line-height:1.6;
+  }
+  .doc-head .meta b{font-weight:600}
+  .doc-head .stamp{
+    display:inline-block;
+    border:1.5px solid var(--warn);
+    color:var(--warn);
+    padding:4px 10px;
+    transform:rotate(-3deg);
+    font-family:"JetBrains Mono",monospace;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-top:4px;
+  }
+
+  /* ---------- browser chrome ---------- */
+  .browser{
+    border:2px solid var(--ink);
+    border-radius:10px;
+    background:var(--paper);
+    box-shadow: 6px 8px 0 rgba(20,20,20,.08);
+  }
+  .browser__bar{ border-top-left-radius:8px; border-top-right-radius:8px }
+  .canvas{ border-bottom-left-radius:8px; border-bottom-right-radius:8px; position:relative }
+  .browser__bar{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 14px;
+    border-bottom:1.5px solid var(--ink);
+    background:var(--paper-2);
+  }
+  .browser__dots{display:flex; gap:6px}
+  .browser__dots span{
+    width:11px; height:11px; border-radius:50%;
+    border:1.2px solid var(--ink); background:var(--paper);
+  }
+  .browser__url{
+    flex:1; border:1.2px solid var(--ink); border-radius:14px;
+    background:var(--paper);
+    padding:4px 12px;
+    font-family:"JetBrains Mono",monospace; font-size:11px;
+    color:var(--ink-soft);
+  }
+  .browser__url span{color:var(--accent)}
+  .browser__tools{
+    font-family:"JetBrains Mono",monospace; font-size:10px;
+    color:var(--muted);
+    letter-spacing:1px;
+  }
+
+  /* ---------- canvas ---------- */
+  .canvas{position:relative}
+
+  /* ---------- generic wireframe primitives ---------- */
+  .box{
+    border:1.5px solid var(--ink);
+    background:var(--paper);
+    position:relative;
+  }
+  .box--dashed{ border-style:dashed }
+  .box--filled{ background:var(--paper-2) }
+  .box--dark{ background:#1a232f; color:#e9e6db; border-color:#1a232f }
+  .box--dark .label{ color:#e9e6db }
+
+  /* image placeholder w/ slash */
+  .ph{
+    position:relative;
+    border:1.5px solid var(--ink);
+    background:
+      linear-gradient(to top right, transparent calc(50% - 1px), var(--ink) 50%, transparent calc(50% + 1px)),
+      linear-gradient(to top left,  transparent calc(50% - 1px), var(--ink) 50%, transparent calc(50% + 1px)),
+      var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    color:var(--ink);
+  }
+  .ph__tag{
+    background:var(--paper);
+    border:1.2px solid var(--ink);
+    padding:3px 10px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    z-index:1;
+    max-width:80%;
+  }
+
+  /* hand-drawn underline */
+  .scribble{
+    display:inline-block;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8'><path d='M2 5 C 20 1, 40 8, 60 4 S 100 2, 118 5' stroke='%231f4f9a' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:left bottom;
+    background-size:100% 6px;
+    padding-bottom:8px;
+  }
+
+  /* squiggly text bars (lines of fake copy) */
+  .lines{display:flex; flex-direction:column; gap:8px; width:100%}
+  .lines i{
+    display:block; height:8px; border-radius:4px;
+    background:var(--paper-2);
+    border:1px solid #d7d0bb;
+  }
+  .lines i:nth-child(2){width:96%}
+  .lines i:nth-child(3){width:88%}
+  .lines i:nth-child(4){width:92%}
+  .lines i:nth-child(5){width:70%}
+  .lines--tight i{height:6px}
+
+  /* annotation callout */
+  .note{
+    position:absolute;
+    font-family:"Caveat",cursive;
+    color:var(--accent);
+    font-size:18px;
+    line-height:1.15;
+    max-width:200px;
+    pointer-events:none;
+    z-index:5;
+  }
+  .note::before{
+    content:"";
+    position:absolute;
+    width:14px; height:14px;
+    border:2px solid var(--accent);
+    border-radius:50%;
+  }
+  .note--bullet::before{
+    background:var(--accent);
+  }
+  .note .arrow{display:block; height:1px}
+
+  /* arrow lines drawn via SVG overlay class */
+  .arrow-svg{
+    position:absolute; pointer-events:none; overflow:visible; z-index:4;
+  }
+  .arrow-svg path{ fill:none; stroke:var(--accent); stroke-width:1.6; stroke-linecap:round; }
+  .arrow-svg .head{ fill:var(--accent); stroke:none }
+
+  /* ===== HEADER (nav) ===== */
+  .nav{ position:relative;
+    display:flex; align-items:center; gap:32px;
+    padding:18px 32px;
+    background:#0e1622; color:#e9e6db;
+    border-bottom:1.5px solid #0e1622;
+  }
+  .nav .logo{
+    display:flex; align-items:center; gap:12px;
+  }
+  .nav .logo .mark{
+    width:44px; height:44px; border:1.5px solid #c9d4e6; border-radius:50%;
+    position:relative; background:#1a232f;
+  }
+  .nav .logo .mark::before,
+  .nav .logo .mark::after{
+    content:""; position:absolute; inset:0; border:1.5px dashed #c9d4e6; border-radius:50%;
+    transform:scaleX(.35);
+  }
+  .nav .logo .mark::after{ transform:rotate(60deg) scaleX(.35) }
+  .nav .logo .name{
+    font-family:"Caveat",cursive; font-weight:700; font-size:26px; line-height:1;
+    color:#e9e6db; letter-spacing:1.5px;
+  }
+  .nav .logo .name small{
+    display:block; font-size:13px; letter-spacing:6px; color:#7d96bd;
+    font-family:"JetBrains Mono",monospace; font-weight:400;
+    margin-top:2px;
+  }
+  .nav ul{
+    display:flex; gap:26px; margin:0; padding:0; list-style:none;
+    font-family:"Kalam",sans-serif; font-size:14px; letter-spacing:2px;
+    color:#c9d4e6;
+  }
+  .nav ul li{position:relative}
+  .nav ul li.active{color:#fff}
+  .nav ul li.active::after{
+    content:""; position:absolute; left:0; right:0; bottom:-7px; height:2px;
+    background:#5b8ed1; border-radius:2px;
+  }
+  .nav .cta{
+    margin-left:auto;
+    border:1.5px solid #5b8ed1;
+    background:#1f4f9a; color:#fff;
+    padding:9px 18px; border-radius:3px;
+    font-family:"Kalam",sans-serif; font-size:13px; letter-spacing:2px;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    background:#0e1622; color:#e9e6db;
+    padding:46px 48px 42px;
+    position:relative;
+    overflow:visible;
+    border-bottom:1.5px solid #0e1622;
+  }
+  .hero__inner{
+    display:grid; grid-template-columns: 1.1fr 1fr; gap:36px; align-items:center;
+  }
+  .hero h2{
+    font-family:"Caveat",cursive; font-weight:700;
+    font-size:88px; line-height:.85; margin:0 0 6px;
+    letter-spacing:2px;
+    color:#dde3ee;
+  }
+  .hero .subscript{
+    font-family:"JetBrains Mono",monospace; font-size:18px; letter-spacing:18px;
+    color:#5b8ed1; margin:0 0 22px; padding-left:4px;
+    border-bottom:2px solid #5b8ed1; display:inline-block; padding-bottom:6px;
+  }
+  .hero .tagline{
+    font-family:"Kalam",sans-serif; font-weight:300; font-size:22px;
+    color:#dde3ee; line-height:1.3; max-width:440px; margin:0 0 22px;
+  }
+  .hero hr{
+    border:0; border-top:1.5px solid #5b8ed1; width:48px; margin:0 0 18px;
+  }
+  .hero .pills{
+    display:flex; flex-wrap:wrap; gap:8px 22px;
+    font-family:"Kalam",sans-serif; font-size:14px; color:#c9d4e6;
+    margin:0 0 26px;
+    align-items:center;
+  }
+  .hero .pills span{display:inline-flex; align-items:center; gap:8px}
+  .hero .pills b{width:6px; height:6px; background:#5b8ed1; border-radius:50%; display:inline-block}
+  .hero .meta{
+    display:flex; gap:32px; font-family:"Kalam",sans-serif; font-size:14px;
+    color:#c9d4e6;
+  }
+  .hero .meta i{
+    width:18px; height:18px; border:1.5px solid #5b8ed1; border-radius:50%;
+    display:inline-block; margin-right:8px; vertical-align:-3px;
+    position:relative;
+  }
+  .hero .meta i::after{
+    content:""; position:absolute; inset:4px; border:1.2px dashed #5b8ed1; border-radius:50%;
+  }
+  .hero__art{
+    position:relative; min-height:380px;
+    background:
+      radial-gradient(ellipse at 60% 50%, rgba(91,142,209,.18) 0%, rgba(28,42,68,.35) 35%, transparent 70%);
+    display:flex; align-items:center; justify-content:center;
+    color:#7d96bd;
+    text-align:center;
+    padding:18px;
+    border:0;
+  }
+  .hero__art .lead{
+    font-family:"Caveat",cursive; font-size:30px; color:#c9d4e6; margin-bottom:8px;
+    line-height:1;
+  }
+  .hero__art .copy{
+    font-family:"JetBrains Mono",monospace; font-size:11px;
+    letter-spacing:2px; line-height:1.7; color:#7d96bd;
+  }
+  /* sphere placeholder */
+  .sphere{
+    position:relative; width:260px; height:260px; margin:0 auto 12px;
+  }
+  .sphere::before{
+    content:""; position:absolute; inset:0; border:2px solid #5b8ed1; border-radius:50%;
+    background:
+      repeating-linear-gradient(135deg, rgba(91,142,209,.18) 0 10px, transparent 10px 22px);
+  }
+  .sphere::after{
+    content:""; position:absolute; left:-22px; right:-22px; top:46%; height:32px;
+    border:2px solid #98b3d6; border-radius:50%;
+    transform:rotate(-12deg);
+    background:transparent;
+  }
+  .sphere .seg{
+    position:absolute; left:50%; top:50%;
+    width:60%; height:1.5px; background:#5b8ed1; transform-origin:left center;
+    transform:translate(0,-50%) rotate(-90deg);
+  }
+  .sphere .seg.b{ transform:translate(0,-50%) rotate(30deg) }
+  .sphere .seg.c{ transform:translate(0,-50%) rotate(150deg) }
+
+  /* trust bar with SDVOSB */
+  .trust{ position:relative;
+    background:#0b121c; border-top:1.5px solid #1f2c3f;
+    color:#c9d4e6;
+    display:flex; align-items:center; gap:28px;
+    padding:18px 48px;
+    flex-wrap:wrap;
+  }
+  .trust__sdvosb{
+    width:62px; height:62px; flex:0 0 auto;
+    background:#fff; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:1.5px solid #5b8ed1;
+    box-shadow:0 0 0 4px #0b121c, 0 0 0 5.5px #5b8ed1;
+    overflow:hidden;
+  }
+  .trust__sdvosb img{ width:100%; height:100%; object-fit:contain }
+  .trust__copy{ font-family:"Kalam",sans-serif; font-size:13px; line-height:1.4; max-width:360px }
+  .trust__copy b{ color:#fff; letter-spacing:2px; font-family:"JetBrains Mono",monospace; font-size:12px; }
+  .trust__codes{
+    display:flex; gap:22px; margin-left:auto; font-family:"JetBrains Mono",monospace;
+    font-size:11px; letter-spacing:1px; color:#7d96bd;
+  }
+  .trust__codes span b{color:#c9d4e6; font-weight:600; display:block; font-size:10px; letter-spacing:2px; margin-bottom:3px}
+  .trust__pill{
+    display:inline-block; padding:2px 8px; border:1px solid #b85c1c; color:#e9b48f;
+    border-radius:12px; font-size:9px; letter-spacing:2px; margin-left:6px;
+  }
+
+  /* ===== OVERVIEW BAND ===== */
+  .overview{
+    background:#0e1622; color:#e9e6db;
+    display:grid; grid-template-columns: 1fr 1.1fr;
+    align-items:stretch;
+    position:relative;
+  }
+  .overview__copy{ padding:54px 48px }
+  .overview__copy h3{
+    font-family:"Caveat",cursive; font-size:34px; color:#5b8ed1;
+    margin:0 0 6px; letter-spacing:1.5px;
+  }
+  .overview__copy hr{
+    border:0; border-top:1.5px solid #5b8ed1; width:42px; margin:0 0 22px;
+  }
+  .overview__copy p{
+    font-family:"Kalam",sans-serif; font-size:15px; line-height:1.65;
+    color:#c9d4e6; max-width:460px; margin:0;
+  }
+  .overview__art{
+    position:relative;
+    background:
+      radial-gradient(circle at 75% 50%, #1c2a44 0%, #14202f 45%, #0e1622 80%);
+    min-height:300px;
+    display:flex; align-items:center; justify-content:center;
+    border:0;
+  }
+  .overview__art::before,
+  .overview__art::after{ content:none }
+  .overview__art .ph__tag{ background:#0e1622; color:#dde3ee; border-color:#5b8ed1; }
+
+  /* ===== COMPETENCIES + CONTACT ===== */
+  .body{
+    background:#eceadf;
+    position:relative;
+  }
+  .competencies{ padding:46px 64px }
+  .competencies h3{
+    font-family:"Caveat",cursive; font-size:32px; color:var(--accent);
+    margin:0 0 4px; letter-spacing:1px;
+  }
+  .competencies hr{ border:0; border-top:1.5px solid var(--accent); width:42px; margin:0 0 28px }
+
+  .comp-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+  }
+  .comp{
+    text-align:left;
+  }
+  .comp__icon{
+    width:64px; height:64px; margin:0 auto 12px;
+    border:1.5px solid var(--ink);
+    border-radius:50%;
+    background:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .comp__icon svg{ width:28px; height:28px }
+  .comp__title{
+    text-align:center;
+    font-family:"Kalam",sans-serif; font-weight:700; font-size:13px;
+    color:var(--accent); letter-spacing:2px; line-height:1.25; min-height:34px;
+    margin-bottom:14px;
+  }
+  .comp ul{
+    list-style:none; padding:0; margin:0;
+    font-family:"Kalam",sans-serif; font-size:13px; line-height:1.45;
+    color:var(--ink);
+  }
+  .comp li{
+    position:relative; padding-left:14px; margin-bottom:6px;
+  }
+  .comp li::before{
+    content:""; position:absolute; left:0; top:8px;
+    width:5px; height:5px; background:var(--accent); border-radius:50%;
+  }
+  .comp-divider{
+    width:1.5px; background:repeating-linear-gradient(0deg,#bdb8a8 0 4px,transparent 4px 8px);
+  }
+
+  .contact{
+    background:#0e1622; color:#e9e6db;
+    padding:54px 64px;
+    position:relative;
+  }
+  .contact__inner{
+    display:grid; grid-template-columns: 1fr 1fr; gap:48px;
+    max-width:1100px; margin:0 auto;
+  }
+  .contact__row{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+  .contact h3{
+    font-family:"Caveat",cursive; font-size:32px; color:#5b8ed1;
+    margin:0 0 4px; letter-spacing:1px;
+  }
+  .contact hr{ border:0; border-top:1.5px solid #5b8ed1; width:42px; margin:0 0 18px }
+  .contact p{
+    font-family:"Kalam",sans-serif; font-size:13px; line-height:1.5;
+    color:#c9d4e6; margin:0 0 18px;
+  }
+  .field{
+    border:1.5px solid #2c3a52; border-radius:3px;
+    background:#131c2a;
+    padding:10px 14px;
+    color:#7d96bd;
+    font-family:"Kalam",sans-serif; font-size:13px;
+    margin-bottom:10px;
+  }
+  .field--ta{ height:84px }
+  .send{
+    background:#1f4f9a; color:#fff;
+    padding:12px 18px; text-align:left;
+    font-family:"Kalam",sans-serif; font-weight:700; letter-spacing:3px; font-size:13px;
+    display:flex; justify-content:space-between; align-items:center;
+    border:1.5px solid #5b8ed1; border-radius:3px;
+    margin-top:6px;
+  }
+
+  /* ===== LOWER 3-COL ===== */
+  .lower{
+    background:#0e1622; color:#e9e6db;
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:0;
+    padding:46px 48px;
+  }
+  .lower__col{ padding:0 24px; border-right:1.5px dashed #1f2c3f; }
+  .lower__col:last-child{ border-right:0 }
+  .lower__col:first-child{ padding-left:0 }
+  .lower__col h4{
+    font-family:"Caveat",cursive; font-size:26px; color:#5b8ed1;
+    margin:0 0 4px; letter-spacing:1.5px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .lower__col h4 .ico{
+    width:24px; height:24px; border:1.5px solid #5b8ed1; border-radius:4px;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:12px; color:#5b8ed1;
+  }
+  .lower__col hr{ border:0; border-top:1.5px solid #5b8ed1; width:36px; margin:0 0 16px }
+
+  .diff-list{
+    list-style:none; padding:0; margin:0;
+    font-family:"Kalam",sans-serif; font-size:13px; line-height:1.45;
+    color:#dde3ee;
+  }
+  .diff-list li{ position:relative; padding-left:14px; margin-bottom:8px }
+  .diff-list li::before{ content:""; position:absolute; left:0; top:7px; width:5px; height:5px; border-radius:50%; background:#5b8ed1 }
+
+  .lead-copy p{
+    font-family:"Kalam",sans-serif; font-size:13px; line-height:1.55;
+    color:#c9d4e6; margin:0 0 12px;
+  }
+  .data-row{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:"JetBrains Mono",monospace; font-size:12px;
+    color:#c9d4e6; padding:8px 0; border-bottom:1px dashed #1f2c3f;
+  }
+  .data-row b{ color:#7d96bd; font-weight:600 }
+  .data-pill{
+    display:inline-block; border:1px solid #b85c1c; color:#e9b48f;
+    padding:1px 8px; border-radius:10px; font-size:9px; letter-spacing:2px;
+  }
+  .lower .contact-line{
+    margin-top:14px; font-family:"Kalam",sans-serif; font-size:13px;
+  }
+  .lower .contact-line a{ color:#5b8ed1; text-decoration:underline }
+
+  /* ===== FOOTER ===== */
+  .foot{
+    background:#070d16; color:#dde3ee;
+    display:flex; align-items:center; gap:32px;
+    padding:22px 48px;
+    flex-wrap:wrap;
+  }
+  .foot .logo{ display:flex; align-items:center; gap:12px }
+  .foot .logo .mark{
+    width:38px; height:38px; border:1.2px solid #c9d4e6; border-radius:50%;
+    background:#131c2a;
+  }
+  .foot .logo .stack{ font-family:"Caveat",cursive; line-height:1; }
+  .foot .logo .stack b{ font-size:22px; letter-spacing:1.5px; color:#dde3ee }
+  .foot .logo .stack small{ display:block; font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:3px; color:#7d96bd; margin-top:3px }
+  .foot .tag{ font-family:"Kalam",sans-serif; font-size:11px; color:#7d96bd; max-width:160px; line-height:1.3 }
+  .foot ul{ list-style:none; padding:0; margin:0 auto; display:flex; gap:34px; font-family:"Kalam",sans-serif; font-size:12px; letter-spacing:2.5px; color:#c9d4e6 }
+  .foot .copy{ font-family:"JetBrains Mono",monospace; font-size:10px; color:#7d96bd; width:100%; text-align:center; margin-top:14px; border-top:1px dashed #1f2c3f; padding-top:14px; letter-spacing:1px }
+
+  /* ---------- legend / sidebar notes ---------- */
+  .legend{
+    margin-top:24px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+    font-family:"Kalam",sans-serif; font-size:13px;
+  }
+  .legend .card{
+    border:1.5px solid var(--ink); border-radius:6px; padding:12px 14px;
+    background:var(--paper);
+  }
+  .legend .card b{
+    font-family:"Caveat",cursive; font-size:20px; color:var(--accent);
+    display:block; margin-bottom:6px; line-height:1;
+  }
+  .legend .card span{ color:var(--ink-soft) }
+
+  /* ---------- annotations layer ---------- */
+  /* positioned relative to .canvas */
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- doc header -->
+  <div class="doc-head">
+    <div>
+      <h1>Adaptive Systems — Site Wireframe</h1>
+      <div style="font-family:'Kalam',sans-serif; font-size:13px; color:var(--ink-soft); margin-top:4px;">
+        Single-page layout · low-fi reference · matches <i>Sitelayout.png</i> structure
+      </div>
+    </div>
+    <div class="meta">
+      <div><b>Project</b> &nbsp; ADAPTIVE SYSTEMS LLC</div>
+      <div><b>Page</b> &nbsp; index.html (home)</div>
+      <div><b>Viewport</b> &nbsp; 1200 desktop</div>
+      <div class="stamp">DRAFT v1</div>
+    </div>
+  </div>
+
+  <!-- browser frame -->
+  <div class="browser">
+    <div class="browser__bar">
+      <div class="browser__dots"><span></span><span></span><span></span></div>
+      <div class="browser__url">🔒 &nbsp; https://<span>adaptivesystems.info</span></div>
+      <div class="browser__tools">⌕  ⤓  ⋯</div>
+    </div>
+
+    <div class="canvas">
+
+      <!-- annotations overlay (top-right of nav) -->
+
+
+      <!-- ========== NAV ========== -->
+      <div class="nav">
+        <div class="logo">
+          <div class="mark"></div>
+          <div class="name">ADAPTIVE<small>S Y S T E M S</small></div>
+        </div>
+        <ul>
+          <li class="active">HOME</li>
+          <li>ABOUT</li>
+          <li>CAPABILITIES</li>
+          <li>DIFFERENTIATORS</li>
+          <li>CONTACT</li>
+        </ul>
+        <button class="cta">GET IN TOUCH</button>
+      </div>
+
+      <!-- ========== HERO ========== -->
+      <div class="hero">
+
+        <div class="hero__inner">
+          <div>
+            <h2>ADAPTIVE</h2>
+            <div class="subscript">SYSTEMS</div>
+            <p class="tagline">Unusual Solutions by<br/>Unconventional Professionals.</p>
+            <hr/>
+            <div class="pills">
+              <span><b></b>Operational Consulting</span>
+              <span><b></b>Training Development</span>
+              <span><b></b>Manned &amp; Unmanned Aviation Support</span>
+              <span><b></b>Capability Integration</span>
+            </div>
+            <div class="meta">
+              <span><i></i>Nashville, TN</span>
+              <span><i></i>ray@adaptivesystems.info</span>
+            </div>
+          </div>
+
+          <div class="hero__art">
+            <div class="sphere">
+              <span class="seg"></span><span class="seg b"></span><span class="seg c"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========== TRUST BAR (with SDVOSB) ========== -->
+      <div class="trust">
+        <div class="trust__sdvosb">
+          <img src="assets/sdvosb-real.png" alt="SDVOSB badge" />
+        </div>
+        <div class="trust__copy">
+          <b>SERVICE-DISABLED VETERAN OWNED SMALL BUSINESS</b><br/>
+          Pending VetCert · CVE designation forthcoming.
+        </div>
+        <div class="trust__codes">
+          <span><b>UEI</b>—— —— —— ——<span class="trust__pill">PENDING</span></span>
+          <span><b>CAGE</b>—— —— ——<span class="trust__pill">PENDING</span></span>
+          <span><b>NAICS</b>541330 · 541611 · 611512 · 541990</span>
+        </div>
+
+      </div>
+
+      <!-- ========== COMPANY OVERVIEW ========== -->
+      <div class="overview">
+        <div class="overview__copy">
+          <h3>Company Overview</h3>
+          <hr/>
+          <p>Adaptive Systems LLC provides operational consulting, aviation support, training development, and mission-focused integration services for defense, public safety, and commercial organizations. Through a multidisciplinary network of aviation and non-aviation partners, Adaptive Systems delivers agile, experience-driven solutions tailored to evolving operational environments.</p>
+        </div>
+        <div class="overview__art">
+          <div style="border:1.5px dashed #5b8ed1; padding:14px 22px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:2px; color:#9fb4d4; background:rgba(91,142,209,.06);">IMAGE PLACEHOLDER</div>
+        </div>
+
+      </div>
+
+      <!-- ========== CORE COMPETENCIES + CONTACT ========== -->
+      <div class="body">
+        <div class="competencies">
+          <h3>Core Competencies</h3>
+          <hr/>
+
+          <div class="comp-grid">
+
+            <!-- col 1 -->
+            <div class="comp">
+              <div class="comp__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#1f4f9a" stroke-width="1.6">
+                  <circle cx="12" cy="12" r="2"/>
+                  <line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/>
+                  <line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/>
+                  <circle cx="12" cy="3" r="1.5"/><circle cx="12" cy="21" r="1.5"/>
+                  <circle cx="3" cy="12" r="1.5"/><circle cx="21" cy="12" r="1.5"/>
+                </svg>
+              </div>
+              <div class="comp__title">UAS TRAINING<br/>DEVELOPMENT</div>
+              <ul>
+                <li>Operator training program development</li>
+                <li>Instructor qualification programs</li>
+                <li>SOP/TTP development</li>
+                <li>Mission readiness training</li>
+                <li>Aviation safety integration</li>
+                <li>Fielding and operational support</li>
+              </ul>
+            </div>
+
+            <!-- col 2 -->
+            <div class="comp">
+              <div class="comp__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#1f4f9a" stroke-width="1.6">
+                  <line x1="2" y1="11" x2="22" y2="11"/>
+                  <rect x="9" y="11" width="6" height="3"/>
+                  <line x1="12" y1="6" x2="12" y2="11"/>
+                  <line x1="7" y1="6" x2="17" y2="6"/>
+                  <line x1="12" y1="14" x2="12" y2="18"/>
+                  <line x1="9" y1="18" x2="15" y2="18"/>
+                </svg>
+              </div>
+              <div class="comp__title">MANNED &amp; UNMANNED<br/>AVIATION SUPPORT</div>
+              <ul>
+                <li>Operational aviation consulting</li>
+                <li>Crewed/uncrewed integration support</li>
+                <li>Mission planning and operational workflows</li>
+                <li>ISR operational support</li>
+                <li>Aviation risk and safety considerations</li>
+                <li>Flight operations consulting</li>
+              </ul>
+            </div>
+
+            <!-- col 3 -->
+            <div class="comp">
+              <div class="comp__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#1f4f9a" stroke-width="1.6">
+                  <circle cx="12" cy="6" r="2.4"/>
+                  <circle cx="5"  cy="17" r="2.4"/>
+                  <circle cx="19" cy="17" r="2.4"/>
+                  <line x1="12" y1="8.4" x2="6" y2="14.8"/>
+                  <line x1="12" y1="8.4" x2="18" y2="14.8"/>
+                  <line x1="7.4" y1="17" x2="16.6" y2="17"/>
+                </svg>
+              </div>
+              <div class="comp__title">CAPABILITY INTEGRATION<br/>&amp; CONSULTING</div>
+              <ul>
+                <li>User-informed operational feedback</li>
+                <li>Mission-focused capability assessment</li>
+                <li>Operational workflow refinement</li>
+                <li>Rapid integration support</li>
+                <li>Training integration planning</li>
+                <li>Multidisciplinary coordination support</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== DIFFERENTIATORS + LEADERSHIP ========== -->
+      <div class="contact" id="about">
+        <div class="contact__inner">
+          <div class="contact__intro">
+            <h3><span style="display:inline-block; width:22px; height:22px; border:1.5px solid #5b8ed1; border-radius:4px; vertical-align:-3px; margin-right:8px; line-height:1; font-size:13px; text-align:center;">◆</span>Differentiators</h3>
+            <hr/>
+            <ul class="diff-list">
+              <li>Military aviation and operational experience</li>
+              <li>Rotary-wing and large UAS operational background</li>
+              <li>Experience developing and supporting training programs</li>
+              <li>Ability to bridge operators, engineers, and end users</li>
+              <li>Agile small-business structure</li>
+              <li>Mission-focused operational mindset</li>
+              <li>Multidisciplinary partner network supporting aviation and non-aviation requirements</li>
+            </ul>
+          </div>
+          <div class="contact__form">
+            <h3><span style="display:inline-block; width:22px; height:22px; border:1.5px solid #5b8ed1; border-radius:4px; vertical-align:-3px; margin-right:8px; line-height:1; font-size:13px; text-align:center;">★</span>Leadership Experience</h3>
+            <hr/>
+            <div class="lead-copy">
+              <p>Adaptive Systems leadership brings experience supporting military aviation operations, UAS development and instruction, operational training program development, and mission-focused aviation support within SOF and defense environments.</p>
+              <p>Background includes rotary-wing aviation support, large UAS operations, instructional program development, and operational integration experience supporting high-performance aviation organizations and evolving mission requirements.</p>
+              <p>Experience includes supporting aviation and UAS training initiatives, operational integration efforts, and mission-oriented capability development across complex operational environments.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== COMPANY DATA + GET IN TOUCH ========== -->
+      <div class="lower" id="contact">
+
+        <div class="lower__col">
+          <h4><span class="ico">▤</span>Company Data</h4>
+          <hr/>
+          <div style="font-family:'Kalam',sans-serif; font-size:14px; color:#dde3ee; line-height:1.45; margin-bottom:14px;">
+            <b style="display:block; font-weight:700;">Adaptive Systems LLC</b>
+            Nashville, Tennessee
+          </div>
+          <div class="data-row"><b>UEI</b><span>Pending <span class="data-pill">PENDING</span></span></div>
+          <div class="data-row"><b>CAGE</b><span>Pending <span class="data-pill">PENDING</span></span></div>
+          <div class="data-row"><b>SDVOSB</b><span>Pending <span class="data-pill">PENDING</span></span></div>
+
+          <div class="contact-line">
+            <div style="font-family:'Kalam',sans-serif; color:#c9d4e6; margin-top:14px; margin-bottom:4px;">Contact:</div>
+            <a href="mailto:ray@adaptivesystems.info">ray@adaptivesystems.info</a>
+          </div>
+
+          <!-- mini SDVOSB echo -->
+          <div style="display:flex; align-items:center; gap:10px; margin-top:18px; padding-top:14px; border-top:1px dashed #1f2c3f;">
+            <div style="width:42px; height:42px; background:#fff; border-radius:50%; padding:3px; display:flex; align-items:center; justify-content:center;">
+              <img src="assets/sdvosb-real.png" alt="SDVOSB" style="width:100%; height:100%; object-fit:contain"/>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; color:#7d96bd; line-height:1.4;">
+              SERVICE-DISABLED<br/>VETERAN OWNED<br/>SMALL BUSINESS
+            </div>
+          </div>
+        </div>
+
+        <div class="lower__col">
+          <h4><span class="ico">✉</span>Get in Touch</h4>
+          <hr/>
+          <p style="font-family:'Kalam',sans-serif; font-size:13px; color:#c9d4e6; margin:0 0 16px; line-height:1.5;">Have a question or ready to discuss your mission needs? Reach out using the form below or email <span style="color:#5b8ed1;">ray@adaptivesystems.info</span> directly.</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="field">Full Name</div>
+            <div class="field">Organization</div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="field">Email Address</div>
+            <div class="field">Phone Number</div>
+          </div>
+          <div class="field">Subject</div>
+          <div class="field field--ta">Your Message</div>
+          <div class="send">SEND MESSAGE <span>➤</span></div>
+        </div>
+      </div>
+
+      <!-- ========== FOOTER ========== -->
+      <div class="foot">
+        <div class="logo">
+          <div class="mark"></div>
+          <div class="stack">
+            <b>ADAPTIVE</b>
+            <small>S Y S T E M S</small>
+            <div class="tag" style="margin-top:6px;">Built for Complexity. Designed to Scale.</div>
+          </div>
+        </div>
+        <ul>
+          <li>HOME</li>
+          <li>ABOUT</li>
+          <li>CAPABILITIES</li>
+          <li>DIFFERENTIATORS</li>
+          <li>CONTACT</li>
+        </ul>
+        <div class="copy">© 2026 ADAPTIVE SYSTEMS LLC.  ALL RIGHTS RESERVED.   ·   NASHVILLE, TN   ·   RAY@ADAPTIVESYSTEMS.INFO</div>
+      </div>
+
+    </div><!-- /canvas -->
+  </div><!-- /browser -->
+
+  <!-- ===== legend ===== -->
+  <div class="legend">
+    <div class="card">
+      <b>Sections (top → bottom)</b>
+      <span>1. Sticky nav<br/>2. Hero (logo + tagline + competency pills + contact)<br/>3. SDVOSB / SAM trust bar<br/>4. Company Overview (copy + photo)<br/>5. Core Competencies (3 cols) + Contact form<br/>6. Differentiators / Leadership / Company Data<br/>7. Footer</span>
+    </div>
+    <div class="card">
+      <b>Color tone</b>
+      <span>Dark navy (#0E1622) primary.<br/>Light cream/grey band (#ECEADF) for the competencies + form to break the dark mass.<br/>Accent blue (#1F4F9A / #5B8ED1) for headings, dividers, CTAs.</span>
+    </div>
+    <div class="card">
+      <b>Type</b>
+      <span>Headlines: DIN Next / Bebas Neue (logo).<br/>Body: Inter or Kalam.<br/>Mono for codes (UEI / CAGE / NAICS).</span>
+    </div>
+    <div class="card">
+      <b>SDVOSB badge placements</b>
+      <span>1. Trust bar directly below hero (primary).<br/>2. Company Data column (echo).<br/>3. Optional 3rd echo near footer if Ray wants stronger signal to COs.</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

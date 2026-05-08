@@ -1,0 +1,1351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Adaptive Systems — Unusual Solutions by Unconventional Professionals.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-deep:    #07182c;
+    --bg-panel:   #0c2440;
+    --bg-panel-2: #102b4d;
+    --bg-light:   #e9edf1;
+    --bg-light-2: #d9dee5;
+    --ink:        #e7edf4;
+    --ink-dim:    #95a4b6;
+    --ink-dark:   #1a2942;
+    --ink-dark-2: #3a4a60;
+    --steel:      #6b7a8e;
+    --rule:       rgba(255,255,255,0.08);
+    --rule-light: rgba(20,40,70,0.10);
+    --signal:     #1d6dc7;
+    --signal-2:   #2e88e8;
+    --signal-bg:  rgba(29,109,199,0.10);
+    --silver:     #c8d0d8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Barlow', -apple-system, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg-deep);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input, textarea { font: inherit; color: inherit; }
+
+  /* ---------- TYPE ---------- */
+  .display, h1, h2, h3, .nav-link, .btn, .eyebrow, .compcard h3, .pill {
+    font-family: 'Barlow Condensed', 'Barlow', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .eyebrow {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--signal-2);
+  }
+  .eyebrow.dark { color: var(--signal); }
+  .eyebrow .accent {
+    display: inline-block;
+    width: 32px;
+    height: 2px;
+    background: var(--signal);
+    vertical-align: middle;
+    margin-right: 14px;
+    transform: translateY(-3px);
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 40px; }
+
+  /* ---------- HEADER ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(7, 24, 44, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+    transition: background .25s ease;
+  }
+  header.scrolled { background: rgba(7, 24, 44, 0.96); }
+  .nav {
+    display: flex; align-items: center; gap: 24px;
+    padding: 18px 40px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 1px;
+    flex-shrink: 0;
+  }
+  .brand img { width: 90px; height: 90px; object-fit: contain; border-radius: 0; }
+  .brand .lockup { line-height: 1; }
+  .brand .lockup .top {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: #c8d0d8;
+  }
+  .brand .lockup .bot {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.32em;
+    color: var(--signal-2);
+    margin-top: 3px;
+    border-top: 1px solid var(--signal);
+    padding-top: 3px;
+    display: inline-block;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 6px;
+    margin-left: auto;
+  }
+  .nav-link {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding: 10px 16px;
+    position: relative;
+    transition: color .2s;
+  }
+  .nav-link:hover { color: var(--ink); }
+  .nav-link.active { color: #fff; }
+  .nav-link.active::after {
+    content: ''; position: absolute;
+    left: 16px; right: 16px; bottom: 4px;
+    height: 2px; background: var(--signal);
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    background: var(--signal);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background .2s, transform .15s;
+    border: 1px solid var(--signal);
+  }
+  .btn:hover { background: var(--signal-2); transform: translateY(-1px); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--signal); border-color: var(--signal); }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(1100px 600px at 75% 40%, rgba(29,109,199,0.18), transparent 60%),
+      linear-gradient(180deg, #061325 0%, #07182c 100%);
+    padding: 60px 0 80px;
+    overflow: hidden;
+  }
+  /* Mountain photo isolated to the right side of the hero, fading into the
+     site's deep-blue background well before it reaches the headline. */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 65%;
+    background:
+      linear-gradient(90deg, #07182c 0%, rgba(7,24,44,0.85) 20%, rgba(7,24,44,0.35) 45%, rgba(7,24,44,0.10) 75%, rgba(7,24,44,0.25) 100%),
+      url('assets/hero-bg.jpg') right center / cover no-repeat;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+  }
+  /* Faint grid overlay, kept very subtle so the photo reads through */
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(64px, 8vw, 116px);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    background: linear-gradient(180deg, #f4f7fa 0%, #b6c0cc 60%, #6e7c8c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.2);
+  }
+  .hero .subline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: clamp(18px, 1.6vw, 24px);
+    letter-spacing: 0.42em;
+    color: var(--signal-2);
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px solid var(--signal);
+    display: inline-block;
+  }
+  .tagline {
+    margin-top: 30px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    font-size: clamp(24px, 2.4vw, 34px);
+    line-height: 1.15;
+    color: #d3dae3;
+    max-width: 480px;
+  }
+  .tagline-rule {
+    width: 60px; height: 2px;
+    background: var(--signal);
+    margin: 22px 0 26px;
+  }
+  .pills {
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    max-width: 540px;
+    color: #c5cdd6;
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+  .pills .pill {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .pills .pill::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--signal);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 28px;
+    color: var(--ink-dim);
+    font-size: 15px;
+  }
+  .meta-item { display: inline-flex; align-items: center; gap: 10px; }
+  .meta-item svg { color: var(--signal-2); }
+  .meta-item a:hover { color: var(--ink); }
+
+  .hero-orb {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero-orb img {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    /* Soft left-edge blend so the orb melts into the backdrop instead of
+       sitting on a hard rectangle, but most of the orb is fully visible. */
+    -webkit-mask-image: linear-gradient(to left, #000 70%, transparent 100%);
+            mask-image: linear-gradient(to left, #000 70%, transparent 100%);
+  }
+  @keyframes floaty {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50%     { transform: translateY(-12px) rotate(0.4deg); }
+  }
+  .orb-glow {
+    position: absolute;
+    width: 70%; height: 70%;
+    background: radial-gradient(circle at 65% 50%, rgba(29,109,199,0.35), transparent 65%);
+    filter: blur(50px);
+    z-index: -1;
+  }
+
+  /* ---------- TRUST BAR ---------- */
+  .trust {
+    background: #050f1d;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 22px 0;
+  }
+  .trust-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    gap: 28px;
+    align-items: center;
+  }
+  .trust-badge {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .trust-badge img {
+    width: 116px; height: 80px; object-fit: contain;
+    background: #fff;
+    padding: 3px 6px;
+    border-radius: 4px;
+    box-shadow: 0 6px 18px -8px rgba(0,0,0,0.6);
+  }
+  .trust-badge .b-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    line-height: 1.1;
+  }
+  .trust-badge .b-text .b-top {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .trust-badge .b-text .b-sub {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--ink-dim);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+  .trust-data {
+    display: flex; gap: 0;
+  }
+  .trust-data .ti {
+    padding: 0 22px;
+    border-left: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .trust-data .ti:first-child { border-left: none; }
+  .trust-data .ti .v {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    color: #fff;
+    margin-top: 4px;
+  }
+  .trust-data .ti .v.pending {
+    color: #f3c465;
+  }
+
+  /* ---------- OVERVIEW ---------- */
+  .overview {
+    background:
+      radial-gradient(1100px 600px at 75% 40%, rgba(29,109,199,0.18), transparent 60%),
+      linear-gradient(180deg, #061325 0%, #07182c 100%);
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Aviation photo isolated to the right side, fading into the
+     section's deep-blue panel well before it reaches the headline. */
+  .overview::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 65%;
+    background:
+      linear-gradient(90deg, #07182c 0%, rgba(7,24,44,0.85) 20%, rgba(7,24,44,0.35) 45%, rgba(7,24,44,0.10) 75%, rgba(7,24,44,0.25) 100%),
+      url('assets/overview-bg.jpg') right center / cover no-repeat;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+    z-index: 0;
+  }
+  .overview .wrap { position: relative; z-index: 1; }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .overview h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--signal-2);
+    margin-top: 14px;
+    margin-bottom: 24px;
+  }
+  .overview p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: #c5cdd6;
+    margin-bottom: 18px;
+    max-width: 540px;
+  }
+  .overview p strong { color: #fff; font-weight: 600; }
+  .overview-figure {
+    aspect-ratio: 16/10;
+    background:
+      linear-gradient(135deg, #0a1d33 0%, #163b66 100%);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .overview-figure::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.04) 0 14px,
+      rgba(255,255,255,0) 14px 28px
+    );
+  }
+  .overview-figure .caption {
+    position: absolute;
+    left: 24px; bottom: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    background: rgba(0,0,0,0.4);
+    padding: 8px 12px;
+    border-left: 2px solid var(--signal);
+  }
+  .overview-figure .crosshair {
+    position: absolute;
+    top: 24px; right: 24px;
+    width: 60px; height: 60px;
+    opacity: 0.5;
+  }
+  .overview-figure .silhouette {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.18);
+  }
+  .overview-figure .silhouette svg { width: 65%; height: auto; }
+
+  /* ---------- COMPETENCIES + CONTACT ---------- */
+  .mid {
+    background: linear-gradient(180deg, #e9edf1 0%, #dde2e9 100%);
+    color: var(--ink-dark);
+    padding: 80px 0;
+  }
+  .mid-grid {
+    display: block;
+  }
+
+  /* ---------- DIFF + LEADERSHIP BLOCK ---------- */
+  .diff-lead {
+    position: relative;
+    background: rgba(7, 24, 44, 0.96);
+    color: var(--ink);
+    padding: 80px 0;
+    border-top: 1px solid rgba(46, 136, 232, 0.18);
+  }
+  /* Glowing blue divider hovering between the previous section and this one */
+  .diff-lead::before {
+    content: '';
+    position: absolute;
+    left: 8%; right: 8%;
+    top: -1px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      rgba(46,136,232,0) 0%,
+      rgba(46,136,232,0.55) 20%,
+      rgba(120,190,255,0.95) 50%,
+      rgba(46,136,232,0.55) 80%,
+      rgba(46,136,232,0) 100%);
+    box-shadow:
+      0 0 6px rgba(46,136,232,0.55),
+      0 0 18px rgba(46,136,232,0.45),
+      0 0 36px rgba(29,109,199,0.35);
+    pointer-events: none;
+  }
+  .diff-lead-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .diff-lead h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--signal-2);
+    margin: 14px 0 22px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .diff-lead h2 svg { color: var(--signal-2); }
+  .diff-lead ul { list-style: none; }
+  .diff-lead ul li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 15px;
+    color: #c8d0d8;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  .diff-lead ul li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 9px;
+    width: 6px; height: 6px;
+    background: var(--signal-2);
+    border-radius: 50%;
+  }
+  .diff-lead p {
+    font-size: 15px;
+    color: #c8d0d8;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .diff-lead .eyebrow.dark { color: var(--signal-2); }
+
+  .competencies h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 38px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin: 14px 0 36px;
+  }
+  .compcards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .compcard { min-width: 0; }
+  .compcard {
+    background: #fff;
+    border: 1px solid rgba(20,40,70,0.08);
+    padding: 22px 16px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .compcard::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 3px;
+    background: var(--signal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+  }
+  .compcard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -20px rgba(20,40,70,0.35);
+    border-color: rgba(29,109,199,0.3);
+  }
+  .compcard:hover::before { transform: scaleX(1); }
+  .compicon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-dark-2);
+    display: flex; align-items: center; justify-content: center;
+    margin: 4px auto 18px;
+    color: var(--ink-dark);
+    background: #f4f6f9;
+  }
+  .compcard h3 {
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--signal);
+    margin-bottom: 18px;
+    line-height: 1.15;
+    min-height: 44px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .complist { list-style: none; }
+  .complist li {
+    position: relative;
+    padding-left: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #2c3a4f;
+    margin-bottom: 10px;
+  }
+  .complist li::before {
+    content: ''; position: absolute;
+    left: 0; top: 8px;
+    width: 6px; height: 6px;
+    background: var(--signal);
+    border-radius: 50%;
+  }
+
+  /* ---------- CONTACT FORM ---------- */
+  .contact-card {
+    background: var(--bg-panel);
+    color: var(--ink);
+    padding: 32px 28px;
+    border: 1px solid rgba(20,40,70,0.12);
+    box-shadow: 0 24px 60px -30px rgba(7,24,44,0.5);
+    position: relative;
+    margin-top: 24px;
+  }
+  .contact-card h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--signal-2);
+    margin: 6px 0 14px;
+  }
+  .contact-card p.intro {
+    font-size: 14.5px;
+    color: #b6c0cc;
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+  .form { display: flex; flex-direction: column; gap: 12px; }
+  .field {
+    position: relative;
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    padding: 13px 14px;
+    color: #fff;
+    font-size: 14.5px;
+    border-radius: 2px;
+    transition: border-color .2s, background .2s;
+    outline: none;
+    resize: none;
+  }
+  .field textarea { min-height: 110px; line-height: 1.5; }
+  .field input::placeholder,
+  .field textarea::placeholder { color: #7c8a9c; }
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--signal);
+    background: rgba(29,109,199,0.06);
+  }
+  .field.error input,
+  .field.error textarea { border-color: #d75353; }
+  .field .err-msg {
+    position: absolute;
+    right: 8px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: #ff7b7b;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .field.textarea .err-msg { top: 16px; transform: none; }
+  .submit {
+    margin-top: 6px;
+    background: var(--signal);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 2px;
+    transition: background .2s;
+  }
+  .submit:hover:not(:disabled) { background: var(--signal-2); }
+  .submit:disabled { opacity: 0.7; cursor: progress; }
+  .submit.success { background: #1e8a5b; }
+  .form-msg {
+    font-size: 13px;
+    color: #8fc4a8;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+    min-height: 18px;
+  }
+
+  /* ---------- DIFF / LEADERSHIP / DATA ---------- */
+  .lower {
+    background: var(--bg-deep);
+    padding: 80px 0 60px;
+    color: var(--ink);
+  }
+  .lower .wrap { max-width: 1240px; }
+  .lower-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .lower h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--signal-2);
+    margin: 14px 0 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .lower h2 svg { color: var(--signal); }
+  .lower ul { list-style: none; }
+  .lower ul li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 14.5px;
+    color: #c5cdd6;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .lower ul li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 6px; height: 6px;
+    background: var(--signal);
+    border-radius: 50%;
+  }
+  .lower p {
+    font-size: 14.5px;
+    color: #c5cdd6;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .data-block { font-size: 15px; }
+  .data-block .name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .data-block .city {
+    color: #b6c0cc;
+    margin-bottom: 18px;
+  }
+  .data-rows {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 18px;
+  }
+  .data-rows dt {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    color: var(--signal-2);
+    letter-spacing: 0.1em;
+    font-size: 14px;
+  }
+  .data-rows dd {
+    color: #c5cdd6;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .data-rows dd .pending {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(255,180,0,0.12);
+    color: #f3c465;
+    border: 1px solid rgba(255,180,0,0.3);
+    border-radius: 2px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .data-block .contact-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .data-block a.email {
+    color: var(--signal-2);
+    border-bottom: 1px solid rgba(46,136,232,0.3);
+    transition: color .2s, border-color .2s;
+  }
+  .data-block a.email:hover { color: #fff; border-color: #fff; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: #050f1d;
+    border-top: 1px solid var(--rule);
+    padding: 40px 0 32px;
+  }
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .foot-brand { display: flex; align-items: center; gap: 1px; }
+  .foot-brand img { width: 90px; height: 90px; object-fit: contain; border-radius: 0; }
+  .foot-brand .lockup .top {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: #c8d0d8;
+  }
+  .foot-brand .lockup .bot {
+    font-family: 'Barlow', sans-serif;
+    font-style: italic;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #6e7c8c;
+    margin-top: 2px;
+  }
+  .foot-links {
+    display: flex; gap: 6px;
+  }
+  .foot-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding: 8px 14px;
+    transition: color .2s;
+  }
+  .foot-link:hover { color: var(--ink); }
+  .foot-copy {
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    text-align: center;
+    margin-top: 18px;
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px) {
+    .hero-grid, .overview-grid { grid-template-columns: 1fr; }
+    .mid-grid { display: block; }
+    .diff-lead-grid { grid-template-columns: 1fr; gap: 36px; }
+    .lower-grid { grid-template-columns: 1fr; gap: 36px; }
+    .compcards { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .contact-card { position: static; }
+    .trust-row { grid-template-columns: 1fr; gap: 18px; }
+    .trust-data { flex-wrap: wrap; gap: 12px 0; }
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print {
+    @page { size: A4 landscape; margin: 0.5cm; }
+    html, body {
+      background: var(--bg-deep) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      animation: none !important;
+      transition: none !important;
+      box-shadow: none !important;
+    }
+    /* Header: not sticky in print, no scroll background change */
+    header#site-header {
+      position: static !important;
+      background: rgba(7,24,44,0.96) !important;
+      backdrop-filter: none !important;
+    }
+    .nav-links { display: none !important; }
+    /* Page breaks */
+    section { break-inside: avoid; page-break-inside: avoid; }
+    .hero, .trust, .overview, .mid, .diff-lead, .lower {
+      break-after: page; page-break-after: always;
+    }
+    .lower { break-after: auto; page-break-after: auto; }
+    .compcard, .data-block, .contact-card, .trust-badge {
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    /* Hide the contact form submit interactivity */
+    .submit { display: none !important; }
+    .form-msg { display: none !important; }
+    /* Diff-lead glow line: keep visible in print */
+    .diff-lead::before {
+      box-shadow: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="nav">
+    <div class="brand" style="gap: 0px">
+      <img src="assets/as-profile.png" alt="Adaptive Systems" style="object-fit: contain; width: 70px; height: 80px" />
+      <div class="lockup">
+        <div class="top">ADAPTIVE</div>
+        <div class="bot">SYSTEMS</div>
+      </div>
+    </div>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" href="#home" data-target="home">Home</a>
+      <a class="nav-link" href="#about" data-target="about">About</a>
+      <a class="nav-link" href="#capabilities" data-target="capabilities">Capabilities</a>
+      <a class="nav-link" href="#differentiators" data-target="differentiators">Differentiators</a>
+      <a class="nav-link" href="#contact" data-target="contact">Contact</a>
+    </nav>
+    <a href="#contact" class="btn" data-target="contact">
+      Get in Touch
+      <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- HERO / HOME -->
+<section class="hero" id="home" data-screen-label="01 Home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>ADAPTIVE</h1>
+        <span class="subline">SYSTEMS</span>
+        <p class="tagline">Unusual Solutions by<br/>Unconventional Professionals.</p>
+        <div class="tagline-rule"></div>
+        <div class="pills">
+          <span class="pill">Operational Consulting</span>
+          <span class="pill">Training Development</span>
+          <span class="pill">Manned &amp; Unmanned Aviation Support</span>
+          <span class="pill">Capability Integration</span>
+        </div>
+        <div class="meta">
+          <span class="meta-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Nashville, TN
+          </span>
+          <a href="mailto:ray@adaptivesystems.info" class="meta-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><polyline points="3 7 12 13 21 7"/></svg>
+            ray@adaptivesystems.info
+          </a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;">
+          <a class="btn" href="#" download>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Capability Statement
+          </a>
+          <a class="btn ghost" href="#contact" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;">
+            Request Teaming Discussion
+            <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero-orb" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="trust" aria-label="Certifications and identifiers">
+  <div class="wrap">
+    <div class="trust-row">
+      <div class="trust-badge">
+        <img src="assets/sdvosb-cropped.png" alt="Service-Disabled Veteran-Owned Small Business" />
+        <div class="b-text">
+          <div class="b-top">SDVOSB</div>
+          <div class="b-sub">Service-Disabled Veteran-Owned<br/>Small Business · Pending</div>
+        </div>
+      </div>
+      <div></div>
+      <div class="trust-data">
+        <div class="ti">UEI<span class="v pending">Pending</span></div>
+        <div class="ti">CAGE<span class="v pending">Pending</span></div>
+        <div class="ti">NAICS<span class="v">541330 · 611430 · 541611</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / OVERVIEW -->
+<section class="overview" id="about" data-screen-label="02 About">
+  <div class="wrap">
+    <div class="overview-grid">
+      <div>
+        <div class="eyebrow"><span class="accent"></span>Company Overview</div>
+        <h2>Built for Complexity.<br/>Designed to Scale.</h2>
+        <p>
+          <strong>Adaptive Systems LLC</strong> provides operational consulting,
+          aviation support, training development, and mission-focused integration
+          services for defense, public safety, and commercial organizations.
+        </p>
+        <p>
+          Through a multidisciplinary network of aviation and non-aviation partners,
+          Adaptive Systems delivers agile, experience-driven solutions tailored to
+          evolving operational environments.
+        </p>
+      </div>
+      <div aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES + CONTACT -->
+<section class="mid" id="capabilities" data-screen-label="03 Capabilities">
+  <div class="wrap">
+    <div class="mid-grid">
+      <div class="competencies">
+        <div class="eyebrow dark"><span class="accent"></span>Core Competencies</div>
+        <h2>Three Pillars. One Mission.</h2>
+        <div class="compcards">
+          <article class="compcard">
+            <div class="compicon">
+              <!-- UAS / drone icon -->
+              <svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="24" r="3"/>
+                <rect x="20" y="22" width="8" height="4" rx="0.5"/>
+                <line x1="14" y1="24" x2="20" y2="24"/>
+                <line x1="28" y1="24" x2="34" y2="24"/>
+                <line x1="24" y1="18" x2="24" y2="22"/>
+                <line x1="24" y1="26" x2="24" y2="30"/>
+                <circle cx="11" cy="24" r="3"/><line x1="9" y1="22" x2="13" y2="26"/><line x1="13" y1="22" x2="9" y2="26"/>
+                <circle cx="37" cy="24" r="3"/><line x1="35" y1="22" x2="39" y2="26"/><line x1="39" y1="22" x2="35" y2="26"/>
+                <circle cx="24" cy="11" r="3"/><line x1="22" y1="9" x2="26" y2="13"/><line x1="26" y1="9" x2="22" y2="13"/>
+                <circle cx="24" cy="37" r="3"/><line x1="22" y1="35" x2="26" y2="39"/><line x1="26" y1="35" x2="22" y2="39"/>
+              </svg>
+            </div>
+            <h3>UAS Training<br/>Development</h3>
+            <ul class="complist">
+              <li>Operator training program development</li>
+              <li>Instructor qualification programs</li>
+              <li>SOP / TTP development</li>
+              <li>Mission readiness training</li>
+              <li>Aviation safety integration</li>
+              <li>Fielding and operational support</li>
+            </ul>
+          </article>
+
+          <article class="compcard">
+            <div class="compicon">
+              <!-- Helicopter icon -->
+              <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="6" y1="14" x2="42" y2="14"/>
+                <line x1="24" y1="10" x2="24" y2="14"/>
+                <path d="M14 18 h14 a4 4 0 0 1 4 4 v4 h-22 v-4 a4 4 0 0 1 4 -4 z"/>
+                <path d="M32 22 l8 2 v3 h-8"/>
+                <line x1="38" y1="22" x2="38" y2="29"/>
+                <line x1="14" y1="30" x2="26" y2="30"/>
+                <line x1="14" y1="30" x2="14" y2="34"/>
+                <line x1="26" y1="30" x2="26" y2="34"/>
+              </svg>
+            </div>
+            <h3>Manned &amp; Unmanned<br/>Aviation Support</h3>
+            <ul class="complist">
+              <li>Operational aviation consulting</li>
+              <li>Crewed / uncrewed integration support</li>
+              <li>Mission planning and operational workflows</li>
+              <li>ISR operational support</li>
+              <li>Aviation risk and safety considerations</li>
+              <li>Flight operations consulting</li>
+            </ul>
+          </article>
+
+          <article class="compcard">
+            <div class="compicon">
+              <!-- Network / nodes icon -->
+              <svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="12" r="4"/>
+                <circle cx="11" cy="34" r="4"/>
+                <circle cx="37" cy="34" r="4"/>
+                <line x1="22" y1="15" x2="13" y2="30"/>
+                <line x1="26" y1="15" x2="35" y2="30"/>
+                <line x1="15" y1="34" x2="33" y2="34"/>
+              </svg>
+            </div>
+            <h3>Capability<br/>Integration &amp; Consulting</h3>
+            <ul class="complist">
+              <li>User-informed operational feedback</li>
+              <li>Mission-focused capability assessment</li>
+              <li>Operational workflow refinement</li>
+              <li>Rapid integration support</li>
+              <li>Training integration planning</li>
+              <li>Multidisciplinary coordination support</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIATORS + LEADERSHIP -->
+<section class="diff-lead" id="differentiators" data-screen-label="04 Differentiators">
+  <div class="wrap">
+    <div class="diff-lead-grid">
+      <div>
+        <div class="eyebrow dark"><span class="accent"></span>What Sets Us Apart</div>
+        <h2>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-12V5l8-3 8 3v5c0 7.5-8 12-8 12z"/></svg>
+          Differentiators
+        </h2>
+        <ul>
+          <li>Military aviation and operational experience</li>
+          <li>Rotary-wing and large UAS operational background</li>
+          <li>Experience developing and supporting training programs</li>
+          <li>Ability to bridge operators, engineers, and end users</li>
+          <li>Agile small-business structure</li>
+          <li>Mission-focused operational mindset</li>
+          <li>Multidisciplinary partner network supporting aviation and non-aviation requirements</li>
+        </ul>
+      </div>
+      <div>
+        <div class="eyebrow dark"><span class="accent"></span>Built by Operators</div>
+        <h2>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.5 22 9.3 17 14 18.5 21 12 17.8 5.5 21 7 14 2 9.3 9 8.5 12 2"/></svg>
+          Leadership Experience
+        </h2>
+        <p>
+          Adaptive Systems leadership brings experience supporting military
+          aviation operations, UAS development and instruction, operational
+          training program development, and mission-focused aviation support
+          within SOF and defense environments.
+        </p>
+        <p>
+          Background includes rotary-wing aviation support, large UAS operations,
+          instructional program development, and operational integration
+          experience supporting high-performance aviation organizations and
+          evolving mission requirements.
+        </p>
+        <p>
+          Experience includes supporting aviation and UAS training initiatives,
+          operational integration efforts, and mission-oriented capability
+          development across complex operational environments.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT + COMPANY DATA -->
+<section class="lower" id="contact" data-screen-label="05 Contact">
+  <div class="wrap">
+    <div class="lower-grid">
+      <aside class="contact-card" style="margin-top:0;">
+        <div class="eyebrow"><span class="accent"></span>Get in Touch</div>
+        <h2>Start the Conversation</h2>
+        <p class="intro">
+          Have a question or ready to discuss your mission needs? Reach out using
+          the form below or email
+          <a href="mailto:ray@adaptivesystems.info" style="color:var(--signal-2);text-decoration:underline;text-underline-offset:3px">ray@adaptivesystems.info</a>
+          directly.
+        </p>
+        <form class="form" id="contact-form" novalidate>
+          <div class="field"><input type="text" name="name" placeholder="Full Name" autocomplete="name" /></div>
+          <div class="field"><input type="text" name="org" placeholder="Organization" autocomplete="organization" /></div>
+          <div class="field"><input type="email" name="email" placeholder="Email Address" autocomplete="email" /></div>
+          <div class="field"><input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel" /></div>
+          <div class="field"><input type="text" name="subject" placeholder="Subject" /></div>
+          <div class="field textarea"><textarea name="message" placeholder="Your Message"></textarea></div>
+          <button type="submit" class="submit">
+            <span class="label">Send Message</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+          <div class="form-msg" id="form-msg" aria-live="polite"></div>
+        </form>
+      </aside>
+      <div>
+        <div class="eyebrow"><span class="accent"></span>At a Glance</div>
+        <h2>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          Company Data
+        </h2>
+        <div class="data-block">
+          <div class="name">Adaptive Systems LLC</div>
+          <div class="city">Nashville, Tennessee</div>
+          <dl class="data-rows">
+            <dt>UEI</dt><dd><span class="pending">Pending</span></dd>
+            <dt>CAGE</dt><dd><span class="pending">Pending</span></dd>
+            <dt>SDVOSB</dt><dd><span class="pending">Pending</span></dd>
+            <dt>NAICS</dt><dd>541330 · 611430 · 541611</dd>
+          </dl>
+          <div style="display:flex;align-items:center;gap:14px;margin:0 0 18px;padding:12px;background:rgba(255,255,255,0.03);border:1px solid var(--rule);">
+            <img src="assets/sdvosb-cropped.png" alt="SDVOSB seal" style="width: 99px; height: 70px; object-fit: contain; background: #fff; border-radius: 4px; padding: 3px 5px; flex-shrink: 0" />
+            <div style="font-family:'Barlow Condensed',sans-serif;line-height:1.15;">
+              <div style="font-weight:700;font-size:15px;letter-spacing:0.14em;text-transform:uppercase;color:#fff;">SDVOSB</div>
+              <div style="font-family:'Barlow',sans-serif;font-size:12px;color:var(--ink-dim);margin-top:4px;">Service-Disabled Veteran-Owned Small Business — application pending</div>
+            </div>
+          </div>
+          <div class="contact-label">Contact</div>
+          <a class="email" href="mailto:ray@adaptivesystems.info">ray@adaptivesystems.info</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand" style="gap: 0px">
+        <img src="assets/as-profile.png" alt="Adaptive Systems" />
+        <div class="lockup">
+          <div class="top">ADAPTIVE SYSTEMS</div>
+          <div class="bot">Built for Complexity. Designed to Scale.</div>
+        </div>
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="#home" class="foot-link">Home</a>
+        <a href="#about" class="foot-link">About</a>
+        <a href="#capabilities" class="foot-link">Capabilities</a>
+        <a href="#differentiators" class="foot-link">Differentiators</a>
+        <a href="#contact" class="foot-link">Contact</a>
+      </nav>
+    </div>
+    <div class="foot-copy">© 2026 Adaptive Systems LLC. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll with header offset
+  const header = document.getElementById('site-header');
+  function smoothScrollTo(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const headerH = header.offsetHeight;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - headerH + 1;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (href.length > 1) {
+        e.preventDefault();
+        smoothScrollTo(href.slice(1));
+        history.pushState(null, '', href);
+      }
+    });
+  });
+
+  // Header shadow on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 8) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  });
+
+  // Scroll-spy for active nav link
+  const sections = ['home', 'about', 'capabilities', 'differentiators', 'contact']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+  function updateActive() {
+    const offset = header.offsetHeight + 40;
+    const y = window.scrollY;
+    let active = sections[0];
+    for (const s of sections) {
+      const top = s.getBoundingClientRect().top + window.pageYOffset - offset;
+      if (y >= top) active = s;
+    }
+    navLinks.forEach(l => {
+      l.classList.toggle('active', l.dataset.target === active.id);
+    });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  window.addEventListener('load', updateActive);
+
+  // Form: validate + simulate send
+  const form = document.getElementById('contact-form');
+  const submit = form.querySelector('.submit');
+  const submitLabel = submit.querySelector('.label');
+  const formMsg = document.getElementById('form-msg');
+
+  form.addEventListener('input', e => {
+    const f = e.target.closest('.field');
+    if (f) f.classList.remove('error');
+    formMsg.textContent = '';
+    formMsg.style.color = '';
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    formMsg.textContent = '';
+    formMsg.style.color = '';
+
+    const fd = new FormData(form);
+    const errors = [];
+    const requiredFields = ['name', 'email', 'message'];
+    requiredFields.forEach(name => {
+      const input = form.querySelector(`[name="${name}"]`);
+      const val = (fd.get(name) || '').toString().trim();
+      const f = input.closest('.field');
+      if (!val) { f.classList.add('error'); errors.push(name); }
+    });
+    const email = (fd.get('email') || '').toString().trim();
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+      const f = form.querySelector('[name="email"]').closest('.field');
+      f.classList.add('error');
+      if (!errors.includes('email')) errors.push('email');
+    }
+    if (errors.length) {
+      formMsg.style.color = '#ff7b7b';
+      formMsg.textContent = `// missing/invalid: ${errors.join(', ')}`;
+      return;
+    }
+
+    submit.disabled = true;
+    submitLabel.textContent = 'Sending…';
+    setTimeout(() => {
+      submit.classList.add('success');
+      submitLabel.textContent = '✓  Message Sent';
+      formMsg.style.color = '#8fc4a8';
+      formMsg.textContent = '// transmission received — we will respond within 1 business day.';
+      form.reset();
+      setTimeout(() => {
+        submit.classList.remove('success');
+        submit.disabled = false;
+        submitLabel.textContent = 'Send Message';
+      }, 4000);
+    }, 1100);
+  });
+</script>
+
+<script>
+  // Auto-print once fonts and layout are ready
+  (async () => {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    } catch (e) {}
+    setTimeout(() => window.print(), 500);
+  })();
+</script>
+
+</body>
+</html>
